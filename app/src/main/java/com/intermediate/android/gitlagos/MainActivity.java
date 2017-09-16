@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
             // and add each new object to the developers list.
             @Override
             public void onResponse(JSONObject response) {
-                progressbar.setVisibility(View.GONE);
-               hidePDialog();
                 isLoading = false;
+               hidePDialog();
+               hideProgressBar();
                 try {
                     JSONArray items = response.getJSONArray("items");
                     for (int i = 0; i < items.length(); i++) {
@@ -170,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                hidePDialog();
-                String message = null;
+               hideProgressBar();
+                String message;
                 if (error instanceof NetworkError || error instanceof TimeoutError) {
                     alertUI();
                 } else if (error instanceof ServerError) {
@@ -193,6 +194,12 @@ public class MainActivity extends AppCompatActivity {
     private void hidePDialog() {
         if (pDialog != null) {
             pDialog.dismiss();
+        }
+    }
+
+    private void hideProgressBar() {
+        if(progressbar !=null) {
+            progressbar.setVisibility(View.GONE);
         }
     }
 
